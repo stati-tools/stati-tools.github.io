@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "Radiance";
+  src: url("https://cdn.steamstatic.com/apps/dota2/fonts/radiance.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Reaver";
+  src: url("https://cdn.steamstatic.com/apps/dota2/fonts/Reaver-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+body {
+  background-color: #101313;
+  background-image: url("https://cdn.steamstatic.com/apps/dota2/images/dota_react/international2022/backgrounds/truesight_bg.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: "Radiance", "Noto Sans", sans-serif;
+  color: #ebeaeb;
+}
+
+.font-reaver {
+  font-family: "Reaver", serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(#F8E8B9 10%, #FFFFFF 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 0px 10px black);
+}
+
+.text-gradient-red {
+  background: -webkit-linear-gradient(#EBCF87 10%, #EA6953 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 2px 2px #000000);
+}
+
+.dota-panel {
+  background-color: rgba(0,0,0,0.85);
+  border: 1px solid #4f3612;
+  box-shadow: 0px 0px 20px #000;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+}
+
+.dota-input {
+  background-color: #1b1b1b;
+  border: 1px solid #4f4c49;
+  color: #fff;
+  font-family: "Radiance", sans-serif;
+  transition: 0.2s;
+}
+.dota-input:focus {
+  border-color: #c79123;
+  outline: none;
+}
+
+.btn-red {
+  background: linear-gradient(90deg, #EA6953 0%, #952E46 100%);
+  box-shadow: 0px 6px 10px rgba(0,0,0,.34);
+  border-top: 2px solid #ffa192;
+  color: #fffbcd;
+  text-transform: uppercase;
+  font-family: "Reaver", serif;
+  letter-spacing: 1px;
+  transition: 0.15s;
+}
+.btn-red:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.btn-glass {
+  background-color: rgba(244,244,244,.1);
+  border: 2px solid hsla(0,0%,100%,.4);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: "Reaver", serif;
+  transition: 0.2s;
+}
+.btn-glass:hover {
+  background-color: rgba(244,244,244,.2);
+  border-color: hsla(0,0%,100%,.8);
+}
