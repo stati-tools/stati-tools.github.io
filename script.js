@@ -28,25 +28,34 @@ const teamsMap = {
 };
 
 function resolveTeamLogo(teamName) {
-  if (!teamName) return DEFAULT_LOGO_URL;
+  let targetUrl = DEFAULT_LOGO_URL;
   
-  const normalized = teamName.toUpperCase().trim();
-  if (teamsMap[normalized]) return teamsMap[normalized];
-  
-  for (const [officialName, logoUrl] of Object.entries(teamsMap)) {
-    if (officialName.includes(normalized) || normalized.includes(officialName)) {
-      return logoUrl;
+  if (teamName) {
+    const normalized = teamName.toUpperCase().trim();
+    if (teamsMap[normalized]) {
+      targetUrl = teamsMap[normalized];
+    } else {
+      for (const [officialName, logoUrl] of Object.entries(teamsMap)) {
+        if (officialName.includes(normalized) || normalized.includes(officialName)) {
+          targetUrl = logoUrl;
+          break;
+        }
+        if (normalized.includes("NIGMA") && officialName.includes("NIGMA")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("LGD") && officialName.includes("LGD")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("FALCON") && officialName.includes("FALCON")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("LIQUID") && officialName.includes("LIQUID")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("SPIRIT") && officialName.includes("SPIRIT")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("XTREME") && officialName.includes("XTREME")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("AURORA") && officialName.includes("AURORA")) { targetUrl = logoUrl; break; }
+        if (normalized.includes("VICI") && officialName.includes("VICI")) { targetUrl = logoUrl; break; }
+      }
     }
-    if (normalized.includes("NIGMA") && officialName.includes("NIGMA")) return logoUrl;
-    if (normalized.includes("LGD") && officialName.includes("LGD")) return logoUrl;
-    if (normalized.includes("FALCON") && officialName.includes("FALCON")) return logoUrl;
-    if (normalized.includes("LIQUID") && officialName.includes("LIQUID")) return logoUrl;
-    if (normalized.includes("SPIRIT") && officialName.includes("SPIRIT")) return logoUrl;
-    if (normalized.includes("XTREME") && officialName.includes("XTREME")) return logoUrl;
-    if (normalized.includes("AURORA") && officialName.includes("AURORA")) return logoUrl;
-    if (normalized.includes("VICI") && officialName.includes("VICI")) return logoUrl;
   }
-  return DEFAULT_LOGO_URL;
+
+  // Intercept the URL and route it through the resizing proxy.
+  // Stripping 'https://' helps the proxy route correctly. We request a 64x64 WebP to drastically save bandwidth.
+  const proxyTarget = targetUrl.replace(/^https?:\/\//, '');
+  return `https://wsrv.nl/?url=${encodeURIComponent(proxyTarget)}&w=64&h=64&fit=contain&output=webp`;
 }
 
 const PARSED_STATS = {
@@ -64,6 +73,7 @@ const PARSED_STATS = {
   "lotuses_grabbed": { name: "Lotuses Grabbed", get: p => (p.item_uses?.famango || 0) + (p.item_uses?.greater_famango || 0) },
   "roshan_kills": { name: "Roshan Kills", get: p => p.roshans_killed || 0 },
   "stuns": { name: "Stun Duration", get: p => parseFloat((p.stuns || 0).toFixed(2)) },
+  "match_duration": { name: "Match Duration (Mins)", get: (p, match) => (match.duration || 0) / 60 },
   "tormentor_involvement": { 
     name: "Tormentor Kills", 
     get: (p, match) => {
@@ -456,7 +466,7 @@ function renderTable() {
       <td class="py-3 px-4 text-center font-mono text-xs text-[#c79123]">${item.rank}</td>
       <td class="py-3 px-4 font-semibold">${playerLink}</td>
       <td class="py-3 px-4 text-slate-400 whitespace-nowrap flex items-center gap-2">
-         <img src="${logoUrl}" alt="logo" class="w-5 h-5 object-contain" />
+         <img src="${logoUrl}" alt="logo" loading="lazy" class="w-5 h-5 object-contain" />
          ${item.teamName}
       </td>
       <td class="py-3 px-4 text-center font-mono">${item.matchesPlayed}</td>
